@@ -3,40 +3,61 @@
 //	GeneralStack.hpp already includes it
 /*#include "GeneralList.hpp"*/
 
-template <class Q>
+template <class QueueClass>
 class Queue {
 	private:
-		List<Q> _data;
+		List<QueueClass> _values;
 		size_t _size;
 	public:
 		//Default constructor
-		Queue();
+		Queue(){
+			_size = 0;
+		}
 
 		//Copy constructor
-		Queue(const Queue &q);
+		Queue(const Queue<QueueClass> &q){
+			_values q._values;
+			_size = _values.size();
+		} 
 
 		//Getters
-		size_t size() const;
+		size_t size() const{
+			return _size;
 
-		Q front() const;
+		QueueClass front() const{
+			return _values.front();
+		}
 
-		Q back() const;
+		QueueClass back() const{
+			return _values.back();
+		}
 
 		//Push to queue
-		void enqueue(Q value);
+		void enqueue(QueueClass value){
+			_values.push_back(value);
+		}
 
 		//Pop from queue
-		void dequeue();
+		void dequeue(){
+			_values.pop_front();
+		}
 
-		void print();
+		void print(){
+			_values.print();
+		}
 
-		bool search(Q value);
+		bool search(QueueClass value){
+			return _values.search(value);
+		}
 
-		bool empty();
+		bool empty() const{
+			return (_values.empty());
+		}
 
-		Queue<Q> operator=(const Queue<Q> q) {
-			_data = q._data;
-			_size = _data.size();
+		Queue<QueueClass> &operator=(const Queue<QueueClass> q) {
+			_values = q._values;
+			_size = _values.size();
+			return *this;
 		}
 
 		template <class U>
@@ -51,3 +72,23 @@ class Queue {
 		friend bool operator!=(const Queue<U> &left_queue, 
 				const Queue<U> &right_queue);
 };
+template <class U>
+std::ostream &operator<<(std::ostream &out, const Queue<U> &q){
+	out << q.values;
+}
+
+template <class U>
+bool operator==(const Queue<U> &left_side, const Queue<U> &right_side){
+	if(left_side._values != right_side._values){
+		return false;
+	}
+	else{
+		return true;
+	}
+}
+
+template <class U>
+bool operator!=(const Queue<U> &left_side, const Queue<U> &right_side){
+	return !(left_side==right_side);
+}
+
